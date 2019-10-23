@@ -1,23 +1,27 @@
 #! python3
-# nbaScraper.py by Geronimo Shaw - Web scrapes scores from NBA games, and prints the information to the screen.
-# Team records are also displayed.
+# nbaScraper.py - Scrapes current day NBA scores, and prints the info to screen.
 
 from selenium import webdriver
-import bs4
+from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
 
-url = webdriver.Firefox()
+# Sets up options for Firefox, and begins webdriver instance.
+options = Options()
+options.headless = True
+url = webdriver.Firefox(options=options, executable_path=r'C:\Utilities\geckodriver.exe')
 url.get('https://au.global.nba.com/scores/')
 
-html = url.page_source
-soup = bs4.BeautifulSoup(html, "lxml")
+element = url.find_elements(By.XPATH, "//td[@class='final-score']")
+team = url.find_elements(By.XPATH, "//td[@class='team-abbrv']")
+s = []
+t = []
+for score in element:
+    s.append(score.text)
+
+for abbr in team:
+    t.append(abbr.text)
+
+for i in range(len(t)):
+    print(t[i] + ': ' + s[i])
+
 url.close()
-total = []
-teams = []
-for tag in soup.find_all("td", {"class":"final-score"}):    # Finds all scores from todays games and stores them in total.
-    total.append(tag.text)
-
-for team in soup.find_all("td", {"class":"team-abbrv"}):    # Finds team abbreviations from todays games and stores them in teams.
-    teams.append(team.text)
-
-for i in range(len(total)):     # Iterates over the len of total which will be the same as the amount of teams, and prints them.
-    print(teams[i] + ' ' + total[i])
