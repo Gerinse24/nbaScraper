@@ -22,6 +22,10 @@ for abbr in team:
     t.append(abbr.text)
 
 for i in range(len(t)):
-    print(t[i] + ': ' + s[i])
+    print('Team: %s - Score: %s' % (t[i], s[i]))
 
 url.close()
+
+ex = input('When you are done type exit.\n')
+if ex == 'exit':
+    sys.exit()
