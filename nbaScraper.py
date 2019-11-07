@@ -27,6 +27,6 @@ for i in range(len(t)):
 
 url.close()
 
-ex = input('When you are done type exit.\n')
+ex = input('When you are done type exit.\n')    # Needed user exit prompt
 if ex == 'exit':
     sys.exit()
